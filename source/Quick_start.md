@@ -3,6 +3,10 @@
 
 LoongChipX是一个开源的异构多核处理器平台。包括多发射乱序高性能处理器LabCore364，五级流水的LabCore164，支持LoongArch32的小核LabCore132，包括后续开发中的六发射高性能处理器。我们旨在构建一个支持多核异构的处理器平台，提供仿真，验证的功能。包括相应的软件支持，如linux内核，gcc和llvm编译器等。
 
+LoongChipX平台整体架构图如下所示。
+
+![Open-LoongChipx](_static/Open-LoongChipX-Overview.svg)
+
 ## 项目简介
 
 ### 364
@@ -196,6 +200,11 @@ make upload
 
 按键复位后，可在串口软件接受到打印信息。
 
+## 参考文献
+1.[Xuantie-910: A Commercial Multi-Core 12-Stage Pipeline Out-of-Order 64-bit High Performance RISC-V Processor with Vector Extension](https://ftp.libre-soc.org/466100a052.pdf)
+
 ## 技术交流
 
 ## 开源许可
+
+LoongChipX平台遵守木兰宽松许可证[Mulan PSL v2].

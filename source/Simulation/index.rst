@@ -10,6 +10,7 @@
    env
    sim_run
    debug
+   tutorial
 
 
 详细内容如下。
