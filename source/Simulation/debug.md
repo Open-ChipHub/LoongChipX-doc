@@ -1,5 +1,37 @@
 # 调试工具说明
 
+LoongChipX提供了丰富的调试工具，致力于提升调试效率。
+
+## 运行过程保存
+
+LoongChipX可选择将模型运行过程中的状态，进行选择性保存。
+
+使用以下命令：
+``` shell
+cd {/path/to/LoongChipX}/verif/common
+vim sim_main.cpp
+```
+编译仿真程序主函数，进行如下修改。
+``` c++
+Top->debug_dump_on = 1;	// enable dump pc trace
+#define WAVE_DUMP_BEGIN_PC 0x1d000000	#  dump_begin_pc
+#define WAVE_DUMP_END_PC   0x1d000488	#  dump_end_pc
+```
+通过打开`debug_dump_on`开关，以及配置`WAVE_DUMP_BEGIN_PC`与`WAVE_DUMP_END_PC`作为运行过程的开始与结束`PC`值，完成配置。
+
+继续使用以下命令，开始运行：
+``` shell
+# set VerSimAPP as instance.
+cd {/path/to/LoongChipX}/verif/verilator/VerSimApp
+make CXX=clang
+```
+模型在运行到`WAVE_DUMP_BEGIN_PC`时开始保存波形，在运行到`WAVE_DUMP_END_PC`时停止保存波形。
+
+在当前目录下，可以看到`dbg.exe.report`，`dbg.exe.report.pc`两个文件。
+
+`dbg.exe.report.pc`记录了模型运行的全部`PC`值，`dbg.exe.report`记录了每个`PC`值的提交周期。可与gold trace进行交叉对比，方便调试。
+
+
 ## Checkpoint功能
 
 Checkpoint功能有助于系统的调试，优化运行流程。
@@ -10,7 +42,7 @@ Checkpoint功能有助于系统的调试，优化运行流程。
 ```shell
 cd ./LA_EMU
 make
-make ckp KERNEL_DIR={path/to/your/linux/} CHECKPOINT_PC=####
+make ckp KERNEL_DIR={/path/to/linux/} CHECKPOINT_PC=####
 ```
 其中，CHECKPOINT_PC即为期望保存现场的PC值。
 
