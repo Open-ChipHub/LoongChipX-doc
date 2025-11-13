@@ -1,6 +1,31 @@
 # 调试工具说明
 
-LoongChipX提供了丰富的调试工具，致力于提升调试效率。
+`LoongChipX`提供了丰富的调试工具，致力于提升调试效率。
+
+## LA_EMU仿真器
+
+`LoongChipX`平台可使用`LA_EMU`仿真器，作为模型运行的参考标准。使用教程如下。
+
+使用以下命令下载源码。
+``` shell
+git clone https://github.com/Open-ChipHub/LA_EMU.git
+```
+使用以下命令进行编译。
+``` shell
+cd ./LA_EMU
+make
+```
+编译生成结果，可在当前路径下`build`文件夹里查看。
+
+使用以下命令运行仿真器，以仿真运行linux内核为例子。
+``` shell
+# -m 指定仿真内存大小，可输入 -m 16
+# -k 指定仿真程序，可输入 -k ~/linux/vmlinux
+# 可使用./build/la_emu_kernel -h查看相关选项
+./build/la_emu_kernel -w -z -n -m {MEMORY} -k {/path/to/linux}/vmlinux
+```
+可在终端得到仿真运行结果。
+
 
 ## 运行过程保存
 

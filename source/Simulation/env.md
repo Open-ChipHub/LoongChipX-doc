@@ -206,6 +206,12 @@ git clone https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
 cd linux
 git checkout v6.10
 ```
+使用以下命令，配置内核对应的设备数文件。
+```shell
+# 可手动从github仓库下载该文件，或使用以下命令
+wget https://github.com/Open-ChipHub/LoongArch-SDK/blob/main/dts/labcore-sim.dts
+mv ./labcore-sim.dts {/path/to/linux}/arch/loongarch/boot/dts/
+```
 
 使用以下命令，对linux kernel进行编译。
 ``` shell
@@ -213,9 +219,15 @@ cp {path/to/rootfs/}/rootfs.cpio.gz ./
 # 请确保交叉编译器环境变量设置正确
 make ARCH=loongarch CROSS_COMPILE=loongarch64-linux-gnu- menuconfig
 ```
-在`[General setup]`选项中，选择`[Initial RAM filesystem and RAM disk (initramfs/initrd) support]`。在`[Initramfs source file(s)]`中输入`[rootfs.cpio.gz]`，保存并退出。
+在`[General setup]`选项中，选择`[Initial RAM filesystem and RAM disk (initramfs/initrd) support]`。在`[Initramfs source file(s)]`中输入`[rootfs.cpio.gz]`。
 
 ![](../_static/sim/env/kernel_config.png)
+
+返回上一页，在`[Kernel type and options]`选项中，选中`[Enable built-in dtb in kernel]`，在`[Source file for built-in dtb]`中输入`[labcore-sim]`。
+
+![](../_static/sim/env/kernel_config_2.png)
+
+保存并退出。
 
 使用以下命令，进行编译。
 ``` shell
