@@ -1,5 +1,89 @@
 # 编译仿真环境配置
 
+本项目提供Docker环境，方便使用。
+
+请点击次数[链接](https://pan.baidu.com/s/1_G6M9L8AM8_4d2xQeAK2wQ)(提取码: wqxy)，下载相应镜像。
+
+请使用以下命令，安装docker。
+
+  - 安装ca-certificates和curl
+    
+    ```bash
+    sudo apt-get install ca-certificates curl
+    ```
+    
+  - 添加docker的GPG密钥
+    
+    ```bash
+    curl -fsSL http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
+    ```
+    
+  - 添加Docker的APT仓库
+    
+    ```bash
+    sudo add-apt-repository "deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable"
+    ```
+    
+  - 安装Docker
+    
+    ```bash
+    sudo apt-get install docker-ce docker-ce-cli containerd.io
+    ```
+    
+  - 配置docker镜像源
+    
+    ```bash
+    sudo mkdir -p /etc/docker
+    cd /etc/docker
+    sudo touch daemon.json
+    sudo vim daemon.json
+    ```
+    
+    导入以下配置
+    
+    ```bash
+    {
+        "registry-mirrors": [
+            "https://docker.m.daocloud.io",
+            "https://noohub.ru",
+            "https://huecker.io",
+            "https://dockerhub.timeweb.cloud",
+            "https://hub.rat.dev/",
+            "https://docker.1panel.live/",
+            "https://docker.nju.edu.cn",
+            "https://dockerproxy.com"
+        ],
+        "dns":["8.8.8.8","114.114.114.114"]
+    }
+    ```
+    
+- 保存并退出。
+  
+  - 重启服务，进行加载。
+  
+  ```bash
+  sudo systemctl daemon-reload
+  sudo systemctl restart docker
+  ```
+  
+- 安装完成，进行验证。
+  
+  ```bash
+  docker --version
+  docker images
+  sudo docker run hello-world
+  ```
+
+docker安装完成后，请使用以下命令，加载镜像。
+``` shell
+docker load --input <下载好的docker镜像路径>
+docker images    # 执行后可以看到镜像信息
+docker run -it host loongchipx:latest /bin/bash
+```
+即可在终端进行操作。
+
+或者，可按照以下教程，自行安装使用。
+
 LoongChipX平台运行和测试环境均基于Ubuntu 22.04LTS版本进行。
 
 首先检查代码仓库并初始化所有模块
@@ -152,7 +236,15 @@ linux内核版本推荐6.10。
 
 首先，基于busybox制作最小根文件系统。
 
-可使用以下命令获取busybox。
+使用以下命令获取对应文件。
+``` shell
+wget https://github.com/Open-ChipHub/LoongArch-SDK/raw/refs/heads/main/rootfs/rootfs.cpio.gz
+mv ./rootfs.cpio.gz /path/to/your/linux/directory/
+```
+
+也可使用以下命令，重新制作。
+
+首先获取busybox。
 ```shell
 # 下载tar包
 wget https://busybox.net/downloads/busybox-1.33.0.tar.bz2
@@ -209,7 +301,7 @@ git checkout v6.10
 使用以下命令，配置内核对应的设备数文件。
 ```shell
 # 可手动从github仓库下载该文件，或使用以下命令
-wget https://github.com/Open-ChipHub/LoongArch-SDK/blob/main/dts/labcore-sim.dts
+wget https://raw.githubusercontent.com/Open-ChipHub/LoongArch-SDK/refs/heads/main/dts/labcore-sim.dts
 mv ./labcore-sim.dts {/path/to/linux}/arch/loongarch/boot/dts/
 ```
 
