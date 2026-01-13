@@ -140,7 +140,8 @@ wget https://github.com/loongson/build-tools/releases/download/2023.08.08/x86_64
 tar xvf ./x86_64-cross-tools-loongarch64-gcc-libc.tar.xz
 # 配置编译器环境变量
 export CROSS_COMPILE=loongarch64-linux-gnu-
-export PATH=/path/of/cross/compile/bin:$PATH
+# 用本机实际路径，代替{/path/of/cross/compile}
+export PATH={/path/of/cross/compile}/bin:$PATH
 ```
 
 4、verilator版本推荐5.008及以上。
@@ -239,7 +240,8 @@ linux内核版本推荐6.10。
 使用以下命令获取对应文件。
 ``` shell
 wget https://github.com/Open-ChipHub/LoongArch-SDK/raw/refs/heads/main/rootfs/rootfs.cpio.gz
-mv ./rootfs.cpio.gz /path/to/your/linux/directory/
+# 用本机实际路径，代替{/path/to/your/linux/directory}
+mv ./rootfs.cpio.gz {/path/to/your/linux/directory}/
 ```
 
 也可使用以下命令，重新制作。
@@ -263,10 +265,12 @@ make arch=loongarch CROSS_COMPILE=loongarch64-linux-gnu- menuconfig
 # 根据需求进行配置
 make -j$(nproc)
 # 生成到新建目录rootfs
+# 用本机实际路径，代替{/path/to/rootfs}
 make install CONFIG_PREFIX={/path/to/rootfs}
 ```
 在rootfs目录下，进行以下命令。
 ``` shell
+# 用本机实际路径，代替{/path/to/rootfs}
 cd {/path/to/rootfs}
 mkdir -p proc sys dev etc/init.d
 vim etc/init.d/rcS
@@ -301,12 +305,16 @@ git checkout v6.10
 使用以下命令，配置内核对应的设备数文件。
 ```shell
 # 可手动从github仓库下载该文件，或使用以下命令
+# 用本机实际路径，代替{/path/to/linux}
 wget https://raw.githubusercontent.com/Open-ChipHub/LoongArch-SDK/refs/heads/main/dts/labcore-sim.dts
 mv ./labcore-sim.dts {/path/to/linux}/arch/loongarch/boot/dts/
+wget https://raw.githubusercontent.com/Open-ChipHub/LoongArch-SDK/refs/heads/main/linux/labcore_defconfig
+mv ./labcore_defconfig {path/to/linux}/.config
 ```
 
 使用以下命令，对linux kernel进行编译。
 ``` shell
+# 用本机实际路径，代替{/path/to/rootfs}
 cp {path/to/rootfs/}/rootfs.cpio.gz ./
 # 请确保交叉编译器环境变量设置正确
 make ARCH=loongarch CROSS_COMPILE=loongarch64-linux-gnu- menuconfig
